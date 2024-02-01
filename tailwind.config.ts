@@ -1,18 +1,53 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      animation: {
+        bloop: 'bloop 1s ease-in-out infinite',
+        swing: 'swing 4s ease-in-out infinite',
+        shadow: 'shadow 3s ease-in-out infinite',
       },
+      keyframes: {
+        bloop: {
+          '0%, 100%': {
+            transform: 'scale(1)',
+          },
+          '50%': {
+            transform: 'scale(1.2)',
+          },
+        },
+        swing: {
+          '0%, 100%': {
+            transform: 'rotate(-3deg) scale(1)',
+          },
+          '50%': {
+            transform: 'rotate(3deg) scale(1.05)',
+          },
+        },
+        shadow: {
+          '0%, 100%': { transform: 'translateY(0.25rem)' },
+          '50%': { transform: 'translateY(0.5rem)' },
+        },
+      },
+    },
+    colors: {
+      transparent: 'transparent',
+      current: 'currentColor',
+      red: '#c94b4b',
+      white: '#ffffff',
+      midnight: '#121063',
+      metal: '#565584',
+      tahiti: '#3ab7bf',
+      silver: '#ecebff',
+      'bubble-gum': '#ff77e9',
+      bermuda: '#78dcca',
+      blue: '#263955',
     },
   },
   plugins: [],

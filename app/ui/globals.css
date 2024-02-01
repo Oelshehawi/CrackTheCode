@@ -3,31 +3,41 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+  --foreground-rgb: white;
+  --background-start-rgb: #263955;
+  --background-middle-rgb: #3a3f5a;
+  --background-middle2-rgb: #1e2740;
+  --background-end-rgb: #18031a;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
   background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    -45deg,
+    var(--background-start-rgb),
+    var(--background-middle-rgb),
+    var(--background-middle2-rgb),
+    var(--background-end-rgb)
+  );
+  min-height: 100vh;
+  color: var(--foreground-rgb);
+  background-size: 400% 400%;
+  animation: gradient 5s ease infinite;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
