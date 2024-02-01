@@ -11,7 +11,6 @@ const config: Config = {
       animation: {
         bloop: 'bloop 1s ease-in-out infinite',
         swing: 'swing 4s ease-in-out infinite',
-        shadow: 'shadow 3s ease-in-out infinite',
       },
       keyframes: {
         bloop: {
@@ -29,10 +28,6 @@ const config: Config = {
           '50%': {
             transform: 'rotate(3deg) scale(1.05)',
           },
-        },
-        shadow: {
-          '0%, 100%': { transform: 'translateY(0.25rem)' },
-          '50%': { transform: 'translateY(0.5rem)' },
         },
       },
     },
