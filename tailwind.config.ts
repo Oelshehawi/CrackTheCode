@@ -34,6 +34,9 @@ const config: Config = {
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
+      statusMatches: '#4CAF50',
+      statusExists: '#FFEB3B',
+      statusNeutral: '#9E9E9E',
       red: '#c94b4b',
       white: '#ffffff',
       midnight: '#121063',
