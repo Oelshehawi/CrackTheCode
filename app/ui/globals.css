@@ -41,3 +41,35 @@ body {
     background-position: 0% 50%;
   }
 }
+
+::-webkit-scrollbar {
+  width: 10px; 
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-middle2-rgb); 
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--background-middle-rgb); 
+  border-radius: 5px; 
+}
+
+@media (max-width: 768px) {
+  body::-webkit-scrollbar {
+    display: none; 
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px; 
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2); 
+  }
+
+  body {
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+  }
+}

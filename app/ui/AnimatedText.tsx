@@ -50,7 +50,7 @@ const AnimatedText: React.FC<AnimatedTextProps> = ({ text }) => {
         initial='offscreen'
         animate={controls}
         variants={textVariants}
-        className='md:text-4xl text-xl font-bold mx-5 bg-blue rounded-lg shadow-lg p-4 text-white'
+        className='md:text-4xl text-xl font-bold mx-5 bg-blue rounded-lg shadow-lg p-4 text-white pointer-events-none'
       >
         {text}
       </motion.div>

@@ -1,21 +1,38 @@
 import { motion } from 'framer-motion';
 
-export default function PreviousGuessList() {
-  const listVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
+interface GuessList {
+  guesses: string[];
+}
+
+export default function PreviousGuessList({ guesses }: GuessList) {
+  const guessVariants = {
+    hidden: (isLatest: boolean) => ({
+      opacity: isLatest ? 0 : 1, 
+      y: isLatest ? -20 : 0      
+    }),
+    visible: { opacity: 1, y: 0 },
   };
 
   return (
     <motion.div
       initial="hidden"
       animate="visible"
-      variants={listVariants}
-      transition={{ duration: 0.5, delay: 0.2 }}
-      className="bg-white rounded shadow-lg w-3/4 h-3/4"
+      className="bg-white rounded shadow-lg w-3/4 h-3/4 overflow-auto"
     >
-      Previous Guesses
-      {/* You can map over your guesses here */}
+      {[...guesses].reverse().map((guess, index) => (
+        <motion.div
+          layout 
+          custom={index === 0} 
+          initial="hidden"
+          animate="visible"
+          variants={guessVariants}
+          transition={{ duration: 0.5, delay: 0 }}
+          key={guess + index} 
+          className="p-2 m-2 text-white font-bold text-center rounded bg-blue"
+        >
+          {guess}
+        </motion.div>
+      ))}
     </motion.div>
   );
 }

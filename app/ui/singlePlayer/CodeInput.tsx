@@ -1,49 +1,50 @@
-import { useState } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+
+import { Dispatch, SetStateAction } from 'react';
+import { motion } from 'framer-motion';
 import { KeyIcon } from '@heroicons/react/16/solid'; // Ensure correct import path
 
-export default function CodeInput() {
-  const [guess, setGuess] = useState('');
-  const controls = useAnimation();
+interface CodeInputProps {
+  guess: string;
+  setGuess: Dispatch<SetStateAction<string>>;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+}
 
+export default function CodeInput({
+  guess,
+  setGuess,
+  handleSubmit,
+}: CodeInputProps) {
   const inputVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
-    shake: {
-      x: [0, -10, 10, -10, 10, 0],
-      transition: { duration: 0.5 },
-    },
+    invalid: { x: [-10, 10, -10, 10, 0], transition: { duration: 0.4 } },
   };
 
-  const handleSubmit = () => {
-    if (guess.length !== 4) {
-      controls.start('shake');
-    } else {
-      // Handle valid guess logic here
-      console.log(guess);
-      setGuess('');
-    }
-  };
+  const isValidGuess = guess.length === 4 && /^\d{4}$/.test(guess);
 
   return (
-    <div className="flex justify-center items-center m-4">
+    <form onSubmit={handleSubmit} className='flex justify-center items-center m-4'>
       <motion.input
-        initial="hidden"
-        animate="visible"
+        animate={isValidGuess ? 'visible' : 'invalid'}
         variants={inputVariants}
         transition={{ duration: 0.5 }}
-        className="bg-white rounded p-2 shadow-lg text-blue font-bold outline-none"
-        type="text"
-        inputMode="numeric"
-        pattern="[0-9]*"
-        maxLength={4}
+        className='bg-white rounded p-2 shadow-lg text-blue font-bold outline-none'
+        type='text'
+        inputMode='numeric'
         value={guess}
-        onChange={(e) => setGuess(e.target.value.replace(/[^0-9]/g, ''))}
-        placeholder="Enter your guess..."
+        onChange={(e) => setGuess(e.target.value.replace(/[^0-9]/g, '').slice(0, 4))}
+        placeholder='Enter your guess...'
+        required
       />
-      <button onClick={handleSubmit} className="ml-2 p-2 bg-blue rounded shadow flex items-center justify-center animate-bounce">
-        <KeyIcon className="h-6 w-6 text-white" />
-      </button>
-    </div>
+      <motion.button
+        type='submit'
+        disabled={!isValidGuess}
+        whileHover={{ scale: isValidGuess ? 1.1 : 1 }}
+        whileTap={{ scale: isValidGuess ? 0.9 : 1 }}
+        className={`ml-1 p-2 bg-blue rounded shadow flex items-center justify-center ${!isValidGuess ? 'opacity-50 cursor-not-allowed' : 'animate-bounce'}`}
+      >
+        <KeyIcon className='h-6 w-6 text-white' />
+      </motion.button>
+    </form>
   );
 }
