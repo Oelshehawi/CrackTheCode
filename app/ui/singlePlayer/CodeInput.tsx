@@ -23,7 +23,7 @@ export default function CodeInput({
   const isValidGuess = guess.length === 4 && /^\d{4}$/.test(guess);
 
   return (
-    <form onSubmit={handleSubmit} className='flex justify-center items-center m-4'>
+    <form onSubmit={handleSubmit} className='flex justify-center items-center m-4 pb-4'>
       <motion.input
         animate={isValidGuess ? 'visible' : 'invalid'}
         variants={inputVariants}

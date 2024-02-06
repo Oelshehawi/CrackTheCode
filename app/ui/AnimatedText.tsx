@@ -45,12 +45,12 @@ const AnimatedText: React.FC<AnimatedTextProps> = ({ text }) => {
   };
 
   return (
-    <div className='absolute z-10 flex justify-center items-center w-full h-full'>
+    <div className='absolute z-10 flex justify-center items-center w-full h-full pointer-events-none'>
       <motion.div
         initial='offscreen'
         animate={controls}
         variants={textVariants}
-        className='md:text-4xl text-xl font-bold mx-5 bg-blue rounded-lg shadow-lg p-4 text-white pointer-events-none'
+        className='md:text-4xl text-xl font-bold mx-5 bg-blue rounded-lg shadow-lg p-4 text-white'
       >
         {text}
       </motion.div>
