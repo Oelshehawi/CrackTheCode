@@ -1,16 +1,22 @@
+import { Dispatch, SetStateAction } from 'react';
 import AnimateModal from '../animations/AnimateModal';
+
 interface ModalProps {
+  setOpen: Dispatch<SetStateAction<boolean>>;
   open: boolean;
 }
 
-export default function RulesModal({ open }: ModalProps) {
+export default function RulesModal({ open, setOpen }: ModalProps) {
   if (!open) return null;
 
   return (
     <AnimateModal>
       <div className='bg-blue p-5 rounded-lg shadow-md m-5'>
-        <h2 className='text-lg font-bold mb-4'>
+        <h2 className=' flex flex-row justify-between text-lg font-bold mb-4'>
           {'How to Play Crack the Code?'}
+          <div className='cursor-pointer' onClick={() => setOpen(!open)}>
+            {'X'}
+          </div>
         </h2>
         <ul className='list-disc list-inside space-y-2'>
           <li>
