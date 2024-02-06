@@ -26,7 +26,6 @@ export default function SinglePlayer() {
     setCode(createCode());
   }, []);
 
-  console.log(code);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const currentStatus = checkGuess(guess, code);
