@@ -1,3 +1,4 @@
+import AnimateModal from '../animations/AnimateModal';
 interface ModalProps {
   open: boolean;
 }
@@ -6,7 +7,7 @@ export default function RulesModal({ open }: ModalProps) {
   if (!open) return null;
 
   return (
-    <div className='absolute z-20 top-0 left-0 right-0 bottom-0 flex justify-center items-center pointer-events-none'>
+    <AnimateModal>
       <div className='bg-blue p-5 rounded-lg shadow-md m-5'>
         <h2 className='text-lg font-bold mb-4'>
           {'How to Play Crack the Code?'}
@@ -46,6 +47,6 @@ export default function RulesModal({ open }: ModalProps) {
           </li>
         </ul>
       </div>
-    </div>
+    </AnimateModal>
   );
 }

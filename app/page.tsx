@@ -1,8 +1,8 @@
-'use client'
+'use client';
 import { TitleButton } from './ui/buttons';
 import { TitleHeader } from './ui/titleScreen/titleHeader';
 import Link from 'next/link';
-import FadeTransition from './ui/FadeTransition';
+import FadeTransition from './ui/animations/FadeTransition';
 
 export default function Home() {
   return (
