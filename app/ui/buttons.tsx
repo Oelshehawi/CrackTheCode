@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import styles from './titleButton.module.css';
 import { Dispatch,SetStateAction, useState } from 'react';
 import AnimatedInput from './animations/AnimatedInput';
+import { createGameRoom, joinGameRoom } from '@/lib/data';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -21,9 +22,14 @@ interface MultiPlayerButtonProps
   setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-interface GameButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+
+
+interface GameButtonProps {
   children: React.ReactNode;
-  href: string;
+  onClick?: () => void; 
+  href?: string; 
+  className?: string; 
+  disabled?: boolean; 
 }
 
 interface JoinGameButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -74,15 +80,27 @@ export const MultiPlayerButton = ({ children, open, setOpen, ...rest }: MultiPla
 };
 
 
-export const GameButton = ({ children, href, ...rest }: GameButtonProps) => {
+export const GameButton: React.FC<GameButtonProps> = ({ children, onClick, href, className, disabled }) => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(href);
+    if (!disabled) {
+      if (href) {
+        router.push(href);
+      } else if (onClick) {
+        onClick();
+      }
+    }
   };
 
+  const buttonClass = `mt-8 w-full ${styles.pushable} ${className} ${disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`;
+
   return (
-    <button {...rest} className={`mt-8 w-full ${styles.pushable}`} onClick={handleClick}>
+    <button
+      className={buttonClass}
+      onClick={handleClick}
+      disabled={disabled}
+    >
       <span className={styles.shadow}></span>
       <span className={styles.edge}></span>
       <span className={styles.front}>{children}</span>
@@ -93,13 +111,17 @@ export const GameButton = ({ children, href, ...rest }: GameButtonProps) => {
 export const JoinGameButton: React.FC<JoinGameButtonProps> = ({ children }) => {
   const [showInput, setShowInput] = useState(false);
 
-  const handleJoinGameSubmit = (gameCode: string) => {
-    console.log('Joining game with code:', gameCode);
-    setShowInput(false); // Optionally reset the state if needed
+  const handleJoinGame = (gameCode: string) => {
+    const joined = joinGameRoom(gameCode, 'PlayerName'); 
+    if (joined) {
+      // Redirect to game room
+    } else {
+      // Show error or message
+    }
   };
 
   if (showInput) {
-    return <AnimatedInput placeholder="Enter Game Code" onSubmit={handleJoinGameSubmit} />;
+    return <AnimatedInput placeholder="Enter Game Code" onSubmit={handleJoinGame} />;
   }
 
   return (
