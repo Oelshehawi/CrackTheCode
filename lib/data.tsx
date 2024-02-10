@@ -1,4 +1,3 @@
-// gameLogic.ts
 import { Status } from './definitions';
 
 interface Player {
@@ -54,3 +53,5 @@ export function joinGameRoom(gameCode: string, playerName: string): boolean {
   }
   return false;
 }
+
+

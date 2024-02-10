@@ -1,9 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import io from 'socket.io-client';
 import { GameButton } from '../../ui/buttons';
-import { Socket } from 'socket.io-client';
 import { motion } from 'framer-motion';
 
 interface Player {
@@ -21,38 +19,14 @@ const playerVariants = {
 };
 
 const GameRoom = () => {
-  const { gameCode } = useParams();
-  const [socket, setSocket] = useState<Socket | null>(null);
+  const { gameCode } = useParams() as { gameCode: string };
   const [players, setPlayers] = useState<Player[]>([]);
   const [playerName, setPlayerName] = useState('');
   const [isNameChosen, setIsNameChosen] = useState(false);
 
-  useEffect(() => {
-    if (typeof gameCode === 'string') {
-      const newSocket = io('/', { path: '/api/socket' });
-      setSocket(newSocket);
-
-      newSocket.emit('joinRoom', gameCode);
-
-      newSocket.on('playerJoined', (newPlayer: Player) => {
-        setPlayers((prevPlayers) => [...prevPlayers, newPlayer]);
-      });
-
-      newSocket.on('gameStarted', () => {
-        // Handle game starting
-      });
-
-      return () => {
-        newSocket.close();
-      };
-    }
-  }, [gameCode]);
 
   const handleJoinGame = () => {
-    if (playerName.trim() && socket && typeof gameCode === 'string') {
-      setIsNameChosen(true);
-      socket.emit('joinGame', { gameCode, playerName });
-    }
+
   };
 
   function handleStartGame(): void {
