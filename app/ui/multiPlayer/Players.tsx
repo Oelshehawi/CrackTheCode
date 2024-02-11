@@ -6,7 +6,6 @@ import { Dispatch, SetStateAction } from 'react';
 import { GameButton } from '../buttons';
 
 interface PlayerProperties {
-  players: number;
   setPlayers: Dispatch<SetStateAction<number>>;
   gameCode: string;
 }
@@ -16,11 +15,7 @@ interface PlayersPresenceProps {
   gameCode: string;
 }
 
-export default function Players({
-  players,
-  setPlayers,
-  gameCode,
-}: PlayerProperties) {
+export default function Players({ setPlayers, gameCode }: PlayerProperties) {
   const [playerName, setPlayerName] = useState('');
   const [hasJoined, setHasJoined] = useState(false);
 

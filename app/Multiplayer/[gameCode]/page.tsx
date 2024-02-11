@@ -1,9 +1,8 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { GameButton } from '../../ui/buttons';
 import { motion } from 'framer-motion';
-import Head from 'next/head';
 import dynamic from 'next/dynamic';
 
 const Players = dynamic(() => import('../../ui/multiPlayer/Players'), {
@@ -21,7 +20,7 @@ const GameRoom = () => {
   const [gameStarted, setGameStarted] = useState(false);
 
   function handleStartGame(): void {
-    setGameStarted(true)
+    setGameStarted(true);
   }
 
   return (
@@ -36,11 +35,7 @@ const GameRoom = () => {
       </h1>
       {!gameStarted && (
         <>
-          <Players
-            players={players}
-            setPlayers={setPlayers}
-            gameCode={gameCode}
-          />
+          <Players setPlayers={setPlayers} gameCode={gameCode} />
           <GameButton onClick={handleStartGame} disabled={players !== 2}>
             Start Game
           </GameButton>
