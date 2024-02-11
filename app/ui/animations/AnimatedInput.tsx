@@ -13,7 +13,6 @@ const AnimatedInput: React.FC<AnimatedInputProps> = ({ placeholder, onSubmit }) 
 
   const handleJoinGameSubmit = () => {
     onSubmit(gameCode); 
-    setGameCode(''); 
   };
 
   return (

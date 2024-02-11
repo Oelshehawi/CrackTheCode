@@ -25,16 +25,27 @@ const GameRoom = () => {
 
   return (
     <motion.div
-      className='flex flex-col p-4 justify-center content-center'
+      className={
+        !gameStarted
+          ? 'flex flex-col p-4 justify-center content-center h-screen'
+          : 'flex flex-col justify-center content-center h-screen'
+      }
       variants={containerVariants}
       initial='hidden'
       animate='visible'
     >
-      <h1 className='flex justify-center text-xl font-bold text-white'>
-        Game Room: {gameCode}
-      </h1>
-      {!gameStarted && <Players setPlayerCount={setPlayerCount} gameCode={gameCode} />}
-      <Game playerCount={playerCount} onGameStart={() => setGameStarted(true)}/>
+      {!gameStarted && (
+        <h1 className='flex justify-center text-xl font-bold text-white'>
+          Game Room: {gameCode}
+        </h1>
+      )}
+      {!gameStarted && (
+        <Players setPlayerCount={setPlayerCount} gameCode={gameCode} />
+      )}
+      <Game
+        playerCount={playerCount}
+        onGameStart={() => setGameStarted(true)}
+      />
     </motion.div>
   );
 };

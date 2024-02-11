@@ -2,6 +2,7 @@ import { useState } from 'react';
 import * as Ably from 'ably';
 import { AblyProvider, useChannel } from 'ably/react';
 import { GameButton } from '../buttons';
+import MultiPlayerWrapper from './MultiPlayerWrapper';
 
 interface GameProperties {
   playerCount: number;
@@ -39,6 +40,7 @@ const GameEvents = ({ playerCount, onGameStart }: GameProperties) => {
   };
 
   const MAX_PLAYER_COUNT = 2;
+
   return hideButton ? (
     <GameButton
       onClick={handleStartGame}
@@ -47,6 +49,6 @@ const GameEvents = ({ playerCount, onGameStart }: GameProperties) => {
       Start Game
     </GameButton>
   ) : (
-    <div>This is the game</div>
+    <MultiPlayerWrapper />
   );
 };

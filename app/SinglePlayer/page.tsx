@@ -36,7 +36,9 @@ export default function SinglePlayer() {
 
   return (
     <FadeTransition>
-      <AnimatePresence>{open && <RulesModal open={open} setOpen={setOpen} />}</AnimatePresence>
+      <AnimatePresence>
+        {open && <RulesModal open={open} setOpen={setOpen} />}
+      </AnimatePresence>
       <div className='flex flex-col h-screen'>
         <Header guessesCounter={guessesCounter} setOpen={setOpen} open={open} />
         <div className='flex flex-col flex-grow justify-center items-center overflow-hidden'>
@@ -47,6 +49,7 @@ export default function SinglePlayer() {
           guess={guess}
           setGuess={setGuess}
           handleSubmit={handleSubmit}
+          disabled={false}
         />
       </div>
     </FadeTransition>

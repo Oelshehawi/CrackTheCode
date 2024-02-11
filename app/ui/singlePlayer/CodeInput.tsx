@@ -7,12 +7,14 @@ interface CodeInputProps {
   guess: string;
   setGuess: Dispatch<SetStateAction<string>>;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  disabled: boolean;
 }
 
 export default function CodeInput({
   guess,
   setGuess,
   handleSubmit,
+  disabled,
 }: CodeInputProps) {
   const inputVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -38,10 +40,11 @@ export default function CodeInput({
       />
       <motion.button
         type='submit'
-        disabled={!isValidGuess}
+     
         whileHover={{ scale: isValidGuess ? 1.1 : 1 }}
         whileTap={{ scale: isValidGuess ? 0.9 : 1 }}
         className={`ml-1 p-2 bg-blue rounded shadow flex items-center justify-center ${!isValidGuess ? 'opacity-50 cursor-not-allowed' : 'animate-bounce'}`}
+        disabled={!isValidGuess || disabled}
       >
         <KeyIcon className='h-6 w-6 text-white' />
       </motion.button>

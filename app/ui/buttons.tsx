@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import styles from './titleButton.module.css';
 import { Dispatch,SetStateAction, useState } from 'react';
 import AnimatedInput from './animations/AnimatedInput';
-import { createGameRoom, joinGameRoom } from '@/lib/data';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -110,14 +109,10 @@ export const GameButton: React.FC<GameButtonProps> = ({ children, onClick, href,
 
 export const JoinGameButton: React.FC<JoinGameButtonProps> = ({ children }) => {
   const [showInput, setShowInput] = useState(false);
+  const router = useRouter();
 
   const handleJoinGame = (gameCode: string) => {
-    const joined = joinGameRoom(gameCode, 'PlayerName'); 
-    if (joined) {
-      // Redirect to game room
-    } else {
-      // Show error or message
-    }
+   router.push(`/Multiplayer/${gameCode.toUpperCase()}`)
   };
 
   if (showInput) {
