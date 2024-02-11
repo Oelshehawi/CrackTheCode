@@ -6,16 +6,16 @@ import { Dispatch, SetStateAction } from 'react';
 import { GameButton } from '../buttons';
 
 interface PlayerProperties {
-  setPlayers: Dispatch<SetStateAction<number>>;
+  setPlayerCount: Dispatch<SetStateAction<number>>;
   gameCode: string;
 }
 
 interface PlayersPresenceProps {
-  setPlayers: Dispatch<SetStateAction<number>>;
+  setPlayerCount: Dispatch<SetStateAction<number>>;
   gameCode: string;
 }
 
-export default function Players({ setPlayers, gameCode }: PlayerProperties) {
+export default function Players({ setPlayerCount, gameCode }: PlayerProperties) {
   const [playerName, setPlayerName] = useState('');
   const [hasJoined, setHasJoined] = useState(false);
 
@@ -45,14 +45,14 @@ export default function Players({ setPlayers, gameCode }: PlayerProperties) {
           <GameButton onClick={handleJoinGame}>Join Game</GameButton>
         )}
         {hasJoined && (
-          <PlayersPresence setPlayers={setPlayers} gameCode={gameCode} />
+          <PlayersPresence setPlayerCount={setPlayerCount} gameCode={gameCode} />
         )}
       </div>
     </AblyProvider>
   );
 }
 
-const PlayersPresence = ({ setPlayers, gameCode }: PlayersPresenceProps) => {
+const PlayersPresence = ({ setPlayerCount, gameCode }: PlayersPresenceProps) => {
   const { presenceData } = usePresence(gameCode);
 
   const playerVariants = {
@@ -61,8 +61,8 @@ const PlayersPresence = ({ setPlayers, gameCode }: PlayersPresenceProps) => {
   };
 
   useEffect(() => {
-    setPlayers(presenceData.length);
-  }, [presenceData.length, setPlayers]);
+    setPlayerCount(presenceData.length);
+  }, [presenceData.length, setPlayerCount]);
 
   return (
     <div className='bg-white p-4 my-4 border rounded shadow'>

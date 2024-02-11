@@ -9,6 +9,10 @@ const Players = dynamic(() => import('../../ui/multiPlayer/Players'), {
   ssr: false,
 });
 
+const Game = dynamic(() => import('../../ui/multiPlayer/Game'), {
+  ssr: false,
+});
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { delay: 0.3, duration: 0.6 } },
@@ -16,12 +20,8 @@ const containerVariants = {
 
 const GameRoom = () => {
   const { gameCode } = useParams() as { gameCode: string };
-  const [players, setPlayers] = useState(0);
+  const [playerCount, setPlayerCount] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
-
-  function handleStartGame(): void {
-    setGameStarted(true);
-  }
 
   return (
     <motion.div
@@ -33,14 +33,8 @@ const GameRoom = () => {
       <h1 className='flex justify-center text-xl font-bold text-white'>
         Game Room: {gameCode}
       </h1>
-      {!gameStarted && (
-        <>
-          <Players setPlayers={setPlayers} gameCode={gameCode} />
-          <GameButton onClick={handleStartGame} disabled={players !== 2}>
-            Start Game
-          </GameButton>
-        </>
-      )}
+      {!gameStarted && <Players setPlayerCount={setPlayerCount} gameCode={gameCode} />}
+      <Game playerCount={playerCount} onGameStart={() => setGameStarted(true)}/>
     </motion.div>
   );
 };
