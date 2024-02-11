@@ -3,34 +3,25 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { GameButton } from '../../ui/buttons';
 import { motion } from 'framer-motion';
+import Head from 'next/head';
+import dynamic from 'next/dynamic';
 
-interface Player {
-  name: string;
-}
+const Players = dynamic(() => import('../../ui/multiPlayer/Players'), {
+  ssr: false,
+});
 
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { delay: 0.3, duration: 0.6 } },
 };
 
-const playerVariants = {
-  hidden: { x: -20, opacity: 0 },
-  visible: { x: 0, opacity: 1, transition: { duration: 0.4 } },
-};
-
 const GameRoom = () => {
   const { gameCode } = useParams() as { gameCode: string };
-  const [players, setPlayers] = useState<Player[]>([]);
-  const [playerName, setPlayerName] = useState('');
-  const [isNameChosen, setIsNameChosen] = useState(false);
-
-
-  const handleJoinGame = () => {
-
-  };
+  const [players, setPlayers] = useState(0);
+  const [gameStarted, setGameStarted] = useState(false);
 
   function handleStartGame(): void {
-    throw new Error('Function not implemented.');
+    setGameStarted(true)
   }
 
   return (
@@ -40,38 +31,21 @@ const GameRoom = () => {
       initial='hidden'
       animate='visible'
     >
-      <h1 className='flex justify-center text-xl font-bold text-white'>Game Room: {gameCode}</h1>
-      {!isNameChosen ? (
-        <div className=' my-4'>
-          <input
-            type='text'
-            value={playerName}
-            onChange={(e) => setPlayerName(e.target.value)}
-            placeholder='Choose your name'
-            className='border-2 rounded p-1 shadow text-blue font-bold w-full'
+      <h1 className='flex justify-center text-xl font-bold text-white'>
+        Game Room: {gameCode}
+      </h1>
+      {!gameStarted && (
+        <>
+          <Players
+            players={players}
+            setPlayers={setPlayers}
+            gameCode={gameCode}
           />
-          <GameButton onClick={handleJoinGame}>Join Game</GameButton>
-        </div>
-      ) : (
-        <p>Welcome, {playerName}</p>
+          <GameButton onClick={handleStartGame} disabled={players !== 2}>
+            Start Game
+          </GameButton>
+        </>
       )}
-      <div className='bg-white p-4 my-4 border rounded shadow'>
-        <h2>Players:</h2>
-        <motion.ul>
-          {players.map((player, index) => (
-            <motion.li
-              key={index}
-              variants={playerVariants}
-              className='list-none'
-            >
-              {player.name}
-            </motion.li>
-          ))}
-        </motion.ul>
-      </div>
-      <GameButton onClick={handleStartGame} disabled={players.length !== 2}>
-        Start Game
-      </GameButton>
     </motion.div>
   );
 };
