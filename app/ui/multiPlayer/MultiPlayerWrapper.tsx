@@ -9,6 +9,7 @@ import Header from '../../ui/singlePlayer/Header';
 import { Status } from '@/lib/definitions';
 import { AnimatePresence } from 'framer-motion';
 import MultiplayerRulesModal from './MultiPlayerRulesModal';
+import { checkGuess, createCode } from '@/lib/data';
 
 const client = new Ably.Realtime.Promise({
   authUrl: '/api/Ably',
@@ -44,19 +45,31 @@ function MultiPlayer({
   currentPlayerName,
 }: MultiplayerWrapperProperties) {
   const [currentPlayer, setCurrentPlayer] = useState<string>(playerNames[0]);
+  const [code, setCode] = useState<string>('')
   const [guesses, setGuesses] = useState<Guess[]>([]);
   const [guess, setGuess] = useState<string>('');
   const [open, setOpen] = useState(false);
   const [guessesCounter, setGuessesCounter] = useState<number>(0);
 
-  const { channel } = useChannel('player-turn', (message) => {
-    if (message.name === 'turn') {
-      setCurrentPlayer(message.data);
+  const { channel } = useChannel('game-actions', (message) => {
+    if (message.name === 'new-code' && code === '') {
+      setCode(message.data);  
+    } else if (message.name === 'turn') {
+      setCurrentPlayer(message.data);  
     }
   });
+    
+  useEffect(() => {
+      const newCode = createCode(); 
+      channel.publish('new-code', newCode);  
+  }, [code, channel]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const currentStatus = checkGuess(guess, code);
+    setGuesses((prev) => [...prev, { value: guess, status: currentStatus }]);
+    setGuess('');
+    setGuessesCounter((prev) => prev + 1);
     const currentIndex = playerNames.indexOf(currentPlayer);
     const nextIndex = (currentIndex + 1) % playerNames.length;
     const nextPlayer = playerNames[nextIndex];
