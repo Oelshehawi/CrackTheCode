@@ -1,7 +1,7 @@
 
 import { Dispatch, SetStateAction } from 'react';
 import { motion } from 'framer-motion';
-import { KeyIcon } from '@heroicons/react/16/solid'; // Ensure correct import path
+import { KeyIcon } from '@heroicons/react/16/solid';
 
 interface CodeInputProps {
   guess: string;
@@ -43,7 +43,7 @@ export default function CodeInput({
      
         whileHover={{ scale: isValidGuess ? 1.1 : 1 }}
         whileTap={{ scale: isValidGuess ? 0.9 : 1 }}
-        className={`ml-1 p-2 bg-blue rounded shadow flex items-center justify-center ${!isValidGuess ? 'opacity-50 cursor-not-allowed' : 'animate-bounce'}`}
+        className={`ml-1 p-2 bg-blue rounded shadow flex items-center justify-center ${!isValidGuess || disabled ? 'opacity-50 cursor-not-allowed' : 'animate-bounce'}`}
         disabled={!isValidGuess || disabled}
       >
         <KeyIcon className='h-6 w-6 text-white' />

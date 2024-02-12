@@ -1,28 +1,37 @@
 import { useEffect, useState } from 'react';
 import * as Ably from 'ably';
 import { motion } from 'framer-motion';
-import { AblyProvider, useAbly, usePresence } from 'ably/react';
+import { AblyProvider, usePresence } from 'ably/react';
 import { Dispatch, SetStateAction } from 'react';
 import { GameButton } from '../buttons';
 
 interface PlayerProperties {
   setPlayerCount: Dispatch<SetStateAction<number>>;
   gameCode: string;
+  setPlayerNames: Dispatch<SetStateAction<string[]>>;
+  currentPlayerName: string;
+  setCurrentPlayerName: Dispatch<SetStateAction<string>>;
 }
 
 interface PlayersPresenceProps {
   setPlayerCount: Dispatch<SetStateAction<number>>;
   gameCode: string;
+  setPlayerNames: Dispatch<SetStateAction<string[]>>;
 }
 
-export default function Players({ setPlayerCount, gameCode }: PlayerProperties) {
-  const [playerName, setPlayerName] = useState('');
+export default function Players({
+  setPlayerCount,
+  gameCode,
+  setPlayerNames,
+  currentPlayerName,
+  setCurrentPlayerName,
+}: PlayerProperties) {
   const [hasJoined, setHasJoined] = useState(false);
 
   const client = new Ably.Realtime.Promise({
     authUrl: '/api/Ably',
     authMethod: 'POST',
-    clientId: playerName,
+    clientId: currentPlayerName,
   });
 
   const handleJoinGame = async () => {
@@ -35,8 +44,8 @@ export default function Players({ setPlayerCount, gameCode }: PlayerProperties) 
         {!hasJoined && (
           <input
             type='text'
-            value={playerName}
-            onChange={(e) => setPlayerName(e.target.value)}
+            value={currentPlayerName}
+            onChange={(e) => setCurrentPlayerName(e.target.value)}
             placeholder='Choose your name'
             className='border-2 rounded p-1 shadow text-blue font-bold w-full'
           />
@@ -45,15 +54,24 @@ export default function Players({ setPlayerCount, gameCode }: PlayerProperties) 
           <GameButton onClick={handleJoinGame}>Join Game</GameButton>
         )}
         {hasJoined && (
-          <PlayersPresence setPlayerCount={setPlayerCount} gameCode={gameCode} />
+          <PlayersPresence
+            setPlayerCount={setPlayerCount}
+            gameCode={gameCode}
+            setPlayerNames={setPlayerNames}
+          />
         )}
       </div>
     </AblyProvider>
   );
 }
 
-const PlayersPresence = ({ setPlayerCount, gameCode }: PlayersPresenceProps) => {
+const PlayersPresence = ({
+  setPlayerCount,
+  gameCode,
+  setPlayerNames,
+}: PlayersPresenceProps) => {
   const { presenceData } = usePresence(gameCode);
+  const [counter, setCounter] = useState(0);
 
   const playerVariants = {
     hidden: { x: -20, opacity: 0 },
@@ -62,7 +80,9 @@ const PlayersPresence = ({ setPlayerCount, gameCode }: PlayersPresenceProps) => 
 
   useEffect(() => {
     setPlayerCount(presenceData.length);
-  }, [presenceData.length, setPlayerCount]);
+    const newPlayerNames = presenceData.map(presence => presence.clientId);
+    setPlayerNames(newPlayerNames);
+  }, [presenceData, setPlayerCount, setPlayerNames]);
 
   return (
     <div className='bg-white p-4 my-4 border rounded shadow'>

@@ -20,8 +20,10 @@ const containerVariants = {
 
 const GameRoom = () => {
   const { gameCode } = useParams() as { gameCode: string };
-  const [playerCount, setPlayerCount] = useState(0);
-  const [gameStarted, setGameStarted] = useState(false);
+  const [playerCount, setPlayerCount] = useState<number>(0);
+  const [gameStarted, setGameStarted] = useState<boolean>(false);
+  const [playerNames, setPlayerNames] = useState<string[]>([]);
+  const [currentPlayerName, setCurrentPlayerName] = useState('');
 
   return (
     <motion.div
@@ -40,11 +42,19 @@ const GameRoom = () => {
         </h1>
       )}
       {!gameStarted && (
-        <Players setPlayerCount={setPlayerCount} gameCode={gameCode} />
+        <Players
+          setPlayerCount={setPlayerCount}
+          gameCode={gameCode}
+          setPlayerNames={setPlayerNames}
+          currentPlayerName={currentPlayerName}
+          setCurrentPlayerName={setCurrentPlayerName}
+        />
       )}
       <Game
         playerCount={playerCount}
         onGameStart={() => setGameStarted(true)}
+        playerNames={playerNames}
+        currentPlayerName={currentPlayerName}
       />
     </motion.div>
   );

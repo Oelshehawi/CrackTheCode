@@ -7,6 +7,8 @@ import MultiPlayerWrapper from './MultiPlayerWrapper';
 interface GameProperties {
   playerCount: number;
   onGameStart: () => void;
+  playerNames: string[];
+  currentPlayerName: string;
 }
 
 const client = new Ably.Realtime.Promise({
@@ -14,15 +16,15 @@ const client = new Ably.Realtime.Promise({
   authMethod: 'POST',
 });
 
-export default function Game({ playerCount, onGameStart }: GameProperties) {
+export default function Game({ playerCount, onGameStart,playerNames, currentPlayerName }: GameProperties) {
   return (
     <AblyProvider client={client}>
-      <GameEvents playerCount={playerCount} onGameStart={onGameStart} />
+      <GameEvents playerCount={playerCount} onGameStart={onGameStart} playerNames={playerNames} currentPlayerName={currentPlayerName} />
     </AblyProvider>
   );
 }
 
-const GameEvents = ({ playerCount, onGameStart }: GameProperties) => {
+const GameEvents = ({ playerCount, onGameStart, playerNames, currentPlayerName }: GameProperties) => {
   const [hideButton, setHideButton] = useState(true);
   const { channel } = useChannel('game-start', (message) => {
     if (message.data === 'gameStarted') {
@@ -49,6 +51,6 @@ const GameEvents = ({ playerCount, onGameStart }: GameProperties) => {
       Start Game
     </GameButton>
   ) : (
-    <MultiPlayerWrapper />
+    <MultiPlayerWrapper playerNames={playerNames} currentPlayerName={currentPlayerName} />
   );
 };
