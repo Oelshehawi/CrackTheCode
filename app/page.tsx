@@ -13,7 +13,7 @@ export default function Home() {
       <div className='flex flex-col justify-evenly content-center flex-wrap min-h-screen'>
         <TitleHeader />
         <div className='flex flex-col gap-y-4 justify-between content-center'>
-          <SinglePlayerButton href='Singleplayer'>
+          <SinglePlayerButton href='SinglePlayer'>
             Play Single Player
           </SinglePlayerButton>
           <MultiPlayerButton open={open} setOpen={setOpen}>
