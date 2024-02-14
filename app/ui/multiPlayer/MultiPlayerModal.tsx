@@ -19,7 +19,7 @@ const MultiPlayerModal: React.FC<ModalProps> = ({ open, setOpen }) => {
   const handleCreateGame = async () => {
     const gameCode = await createGameRoom();
 
-    router.push(`/Multiplayer/${gameCode}`);
+    router.push(`/MultiPlayer/${gameCode}`);
   };
 
   return (

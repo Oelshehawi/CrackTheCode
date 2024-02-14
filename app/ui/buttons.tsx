@@ -112,7 +112,7 @@ export const JoinGameButton: React.FC<JoinGameButtonProps> = ({ children }) => {
   const router = useRouter();
 
   const handleJoinGame = (gameCode: string) => {
-   router.push(`/Multiplayer/${gameCode.toUpperCase()}`)
+   router.push(`/MultiPlayer/${gameCode.toUpperCase()}`)
   };
 
   if (showInput) {
